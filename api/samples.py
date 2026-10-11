@@ -1,5 +1,7 @@
-from http.server import BaseHTTPRequestHandler
-import json
+from flask import Flask, jsonify
+
+app = Flask(__name__)
+handler = app
 
 SAMPLES = [
     {
@@ -49,17 +51,14 @@ SAMPLES = [
     },
 ]
 
-class handler(BaseHTTPRequestHandler):
-    def do_OPTIONS(self):
-        self.send_response(200)
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Access-Control-Allow-Methods', 'GET, OPTIONS')
-        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
-        self.end_headers()
+@app.after_request
+def add_cors(response):
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type"
+    return response
 
-    def do_GET(self):
-        self.send_response(200)
-        self.send_header('Content-Type', 'application/json')
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.end_headers()
-        self.wfile.write(json.dumps({"samples": SAMPLES}).encode('utf-8'))
+@app.route("/", methods=["GET", "OPTIONS"], strict_slashes=False)
+@app.route("/api/samples", methods=["GET", "OPTIONS"], strict_slashes=False)
+def get_samples():
+    return jsonify({"samples": SAMPLES})

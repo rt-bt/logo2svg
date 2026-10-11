@@ -88,8 +88,8 @@ def add_cors_headers(response):
     return response
 
 
-@app.route("/", methods=["GET", "POST", "OPTIONS"])
-@app.route("/api/convert", methods=["GET", "POST", "OPTIONS"])
+@app.route("/", methods=["GET", "POST", "OPTIONS"], strict_slashes=False)
+@app.route("/api/convert", methods=["GET", "POST", "OPTIONS"], strict_slashes=False)
 def handle_convert():
     if request.method == "OPTIONS":
         return "", 204

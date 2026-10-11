@@ -1,17 +1,19 @@
-from http.server import BaseHTTPRequestHandler
-import json
 import sys
+from flask import Flask, jsonify
 
-class handler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        self.send_response(200)
-        self.send_header('Content-Type', 'application/json')
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.end_headers()
-        payload = {
-            "status": "healthy",
-            "runtime": "Vercel Serverless Python",
-            "python": sys.version,
-            "platform": sys.platform,
-        }
-        self.wfile.write(json.dumps(payload, indent=2).encode('utf-8'))
+app = Flask(__name__)
+handler = app
+
+@app.after_request
+def add_cors(response):
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    return response
+
+@app.route("/", strict_slashes=False)
+@app.route("/api/health", strict_slashes=False)
+def health():
+    return jsonify({
+        "status": "healthy",
+        "runtime": "Vercel Serverless Function",
+        "python": sys.version,
+    })
