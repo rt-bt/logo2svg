@@ -15,7 +15,10 @@ from typing import Optional, Tuple, Union
 
 import numpy as np
 from PIL import Image
-from skimage.metrics import structural_similarity as compute_ssim
+try:
+    from skimage.metrics import structural_similarity as compute_ssim
+except (ImportError, Exception):
+    compute_ssim = None
 
 
 class RenderingError(Exception):
@@ -170,7 +173,25 @@ def compare_svg_to_image(
     rend_gray = np.array(rend_rgb.convert("L"))
 
     # 5. Compute SSIM
-    ssim_val = float(compute_ssim(ref_gray, rend_gray, data_range=255))
+    if compute_ssim is not None:
+        ssim_val = float(compute_ssim(ref_gray, rend_gray, data_range=255))
+    else:
+        # Standard pure NumPy SSIM formula (Wang et al. 2004)
+        c1 = (0.01 * 255) ** 2
+        c2 = (0.03 * 255) ** 2
+        im1 = ref_gray.astype(np.float64)
+        im2 = rend_gray.astype(np.float64)
+        mu1 = float(np.mean(im1))
+        mu2 = float(np.mean(im2))
+        sig1 = float(np.var(im1))
+        sig2 = float(np.var(im2))
+        sig12 = float(np.mean((im1 - mu1) * (im2 - mu2)))
+        denom = (mu1**2 + mu2**2 + c1) * (sig1 + sig2 + c2)
+        if denom > 0:
+            ssim_val = float(((2 * mu1 * mu2 + c1) * (2 * sig12 + c2)) / denom)
+        else:
+            ssim_val = 1.0
+
     # Bound SSIM safely between 0.0 and 1.0
     ssim_val = max(0.0, min(1.0, ssim_val))
 

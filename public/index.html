@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logo2SVG Creative Studio • Vector Tracing Engine</title>
+  <meta name="description" content="Professional Raster to Vector Studio: Convert PNG, JPG, and WEBP brand logos into ultra-clean, scalable SVG vector graphics with live split-screen comparison and metrics.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
+  
+  <!-- Modern Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  
+  <!-- Studio Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="studio-dark">
+
+  <!-- Ambient Glow Backgrounds -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+  <div class="ambient-glow glow-3"></div>
+
+  <!-- Main App Shell -->
+  <div class="app-layout">
+    
+    <!-- Top Navigation Bar -->
+    <header class="studio-header">
+      <div class="header-brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <div class="brand-info">
+          <div class="brand-title-wrap">
+            <span class="brand-title">LOGO2SVG</span>
+            <span class="studio-badge">CREATIVE STUDIO</span>
+          </div>
+          <span class="brand-tagline">Precision Vector Synthesis & Sub-Pixel Spline Engine</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div class="engine-status">
+          <span class="status-dot pulse"></span>
+          <span class="status-text">Engine Ready</span>
+        </div>
+
+        <button class="btn-primary-action btn-header-upload" id="btn-header-upload" title="Upload a new logo">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.2" fill="none"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+          <span>Upload Logo</span>
+        </button>
+
+        <button class="btn-ghost" id="btn-samples-modal" title="Browse sample library">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <span>Sample Logos</span>
+        </button>
+
+        <button class="btn-ghost" id="btn-shortcuts" title="Keyboard Shortcuts (?)">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M6 12h.01M18 12h.01M8 16h8"/></svg>
+          <span>Shortcuts</span>
+        </button>
+
+        <button class="btn-theme-toggle" id="btn-theme-toggle" title="Toggle Studio Contrast">
+          <svg class="icon-moon" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace Container -->
+    <div class="workspace-grid">
+
+      <!-- LEFT SIDEBAR: Controls & Engine Tuning -->
+      <aside class="sidebar-panel">
+        
+        <!-- Source Upload & Drag Zone -->
+        <section class="studio-card upload-section">
+          <div class="card-header">
+            <span class="card-title">SOURCE LOGO</span>
+            <div class="card-header-actions">
+              <span class="file-info-badge" id="source-file-badge">No File</span>
+              <button class="btn-clear-source" id="btn-clear-source" title="Clear logo & reset" style="display: none;">✕ Clear</button>
+            </div>
+          </div>
+
+          <div class="dropzone" id="dropzone">
+            <input type="file" id="file-input" accept="image/png,image/jpeg,image/webp,image/bmp" hidden>
+            <div class="dropzone-content" id="dropzone-content">
+              <div class="drop-icon-wrapper">
+                <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2" fill="none">
+                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+                </svg>
+              </div>
+              <p class="drop-title">Drop raster logo here</p>
+              <p class="drop-sub">PNG, JPG, WEBP, BMP or <kbd>Ctrl+V</kbd> to paste</p>
+              <button class="btn-browse" id="btn-browse" type="button">Browse File</button>
+            </div>
+            <div class="dropzone-preview" id="dropzone-preview" style="display: none;">
+              <img id="thumb-preview" alt="Thumbnail Preview">
+              <div class="preview-overlay">
+                <span class="preview-change-btn">📁 Change Logo</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="active-file-actions" id="active-file-actions" style="display: none;">
+            <button class="btn-secondary-action btn-change-logo" id="btn-change-logo" type="button">
+              📁 Upload New Logo
+            </button>
+            <button class="btn-ghost btn-reset-logo" id="btn-reset-logo" type="button" title="Clear and reset studio">
+              ✕ Reset
+            </button>
+          </div>
+
+          <!-- Quick Samples Bar -->
+          <div class="quick-samples">
+            <span class="quick-label">Or try sample:</span>
+            <div class="quick-sample-chips">
+              <button class="sample-chip" data-sample="geometric_logo.png" title="Geometric Shapes & Angles">📐 Geometric</button>
+              <button class="sample-chip" data-sample="tech_shield.png" title="Sharp Cyber Shield">🛡️ Tech Shield</button>
+              <button class="sample-chip" data-sample="smooth_badge.png" title="Curved Smooth Badge">⭕ Badge</button>
+              <button class="sample-chip" data-sample="transparent_icon.png" title="Transparent Alpha Mark">✨ Alpha</button>
+              <button class="sample-chip" data-sample="retro_crest.jpg" title="Retro Detailed Crest">📜 Vintage</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tracing Preset Selector -->
+        <section class="studio-card">
+          <div class="card-header">
+            <span class="card-title">VECTOR TRACING PRESET</span>
+            <span class="info-tooltip" title="Chooses tuned Bézier curvature, corner threshold, and length filtering">ℹ️</span>
+          </div>
+
+          <div class="preset-selector">
+            <label class="preset-card active" data-preset="logo">
+              <input type="radio" name="preset" value="logo" checked hidden>
+              <div class="preset-icon">🎨</div>
+              <div class="preset-details">
+                <span class="preset-name">Logo Studio</span>
+                <span class="preset-desc">Balanced Béziers & smooth outlines</span>
+              </div>
+            </label>
+
+            <label class="preset-card" data-preset="sharp">
+              <input type="radio" name="preset" value="sharp" hidden>
+              <div class="preset-icon">📐</div>
+              <div class="preset-details">
+                <span class="preset-name">Sharp Geometric</span>
+                <span class="preset-desc">Rigid polygon corners & low error</span>
+              </div>
+            </label>
+
+            <label class="preset-card" data-preset="smooth">
+              <input type="radio" name="preset" value="smooth" hidden>
+              <div class="preset-icon">⭕</div>
+              <div class="preset-details">
+                <span class="preset-name">Smooth Crest</span>
+                <span class="preset-desc">Enhanced curve smoothing for badges</span>
+              </div>
+            </label>
+          </div>
+        </section>
+
+        <!-- Preprocessing Engine Options -->
+        <section class="studio-card">
+          <div class="card-header">
+            <span class="card-title">ENGINE PIPELINE</span>
+            <span class="card-meta">Preprocess & Clean</span>
+          </div>
+
+          <div class="toggles-grid">
+            <label class="switch-row">
+              <div class="switch-label">
+                <span class="switch-title">Binary B&W Mode</span>
+                <span class="switch-hint">Pure monochrome silhouettes</span>
+              </div>
+              <input type="checkbox" id="opt-bw" class="studio-switch">
+            </label>
+
+            <label class="switch-row">
+              <div class="switch-label">
+                <span class="switch-title">Preserve Alpha Channel</span>
+                <span class="switch-hint">Respect transparent backgrounds</span>
+              </div>
+              <input type="checkbox" id="opt-alpha" class="studio-switch" checked>
+            </label>
+
+            <label class="switch-row">
+              <div class="switch-label">
+                <span class="switch-title">Smart Denoise</span>
+                <span class="switch-hint">Filter compression ringing</span>
+              </div>
+              <input type="checkbox" id="opt-denoise" class="studio-switch">
+            </label>
+
+            <label class="switch-row">
+              <div class="switch-label">
+                <span class="switch-title">Minify XML</span>
+                <span class="switch-hint">Compact single-line output</span>
+              </div>
+              <input type="checkbox" id="opt-minify" class="studio-switch">
+            </label>
+          </div>
+
+          <!-- Color Quantization Slider -->
+          <div class="slider-group">
+            <div class="slider-header">
+              <div class="checkbox-label-wrap">
+                <input type="checkbox" id="opt-quantize-toggle" class="studio-checkbox">
+                <label for="opt-quantize-toggle" class="slider-title">Color Quantization</label>
+              </div>
+              <span class="slider-value" id="val-colors-badge">Full Colors</span>
+            </div>
+            <input type="range" id="opt-colors" min="2" max="16" value="6" class="studio-range" disabled>
+          </div>
+
+          <!-- Precision & Scale -->
+          <div class="controls-row">
+            <div class="control-col">
+              <label class="control-label" for="opt-scale">Resample</label>
+              <select id="opt-scale" class="studio-select">
+                <option value="auto" selected>Auto (2x LANCZOS)</option>
+                <option value="1.0">1.0x (Native)</option>
+                <option value="2.0">2.0x (High-Res)</option>
+                <option value="3.0">3.0x (Ultra-Res)</option>
+                <option value="4.0">4.0x (Extreme)</option>
+              </select>
+            </div>
+            <div class="control-col">
+              <label class="control-label" for="opt-precision">Precision</label>
+              <select id="opt-precision" class="studio-select">
+                <option value="1">1 Dec (Small)</option>
+                <option value="2" selected>2 Dec (Balanced)</option>
+                <option value="3">3 Dec (Crisp)</option>
+                <option value="4">4 Dec (Exact)</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <!-- Primary Trigger Action -->
+        <div class="sidebar-action">
+          <button id="btn-convert" class="btn-primary-action">
+            <span class="btn-icon">⚡</span>
+            <span class="btn-text">Trace Vector</span>
+            <span class="btn-shortcut"><kbd>Ctrl</kbd> + <kbd>↵</kbd></span>
+          </button>
+        </div>
+
+      </aside>
+
+      <!-- CENTER: Live Interactive Studio Stage -->
+      <main class="stage-panel">
+        
+        <!-- Canvas Toolbar -->
+        <div class="stage-toolbar">
+          <div class="toolbar-left">
+            <button class="btn-ghost toolbar-upload-btn" id="btn-toolbar-upload" title="Upload another logo">
+              <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+              <span>Change Logo</span>
+            </button>
+
+            <div class="view-mode-tabs" id="view-mode-tabs">
+              <button class="view-tab active" data-mode="split" title="Interactive Split-Screen Curtain Slider">
+                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 3v18"/></svg>
+                <span>Split Slider</span>
+              </button>
+              <button class="view-tab" data-mode="side" title="Side-by-side Dual Display">
+                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><rect x="2" y="4" width="9" height="16" rx="1"/><rect x="13" y="4" width="9" height="16" rx="1"/></svg>
+                <span>Side by Side</span>
+              </button>
+              <button class="view-tab" data-mode="vector" title="Vector SVG Only">
+                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M12 2l8 4.5v11L12 22l-8-4.5v-11L12 2z"/></svg>
+                <span>Vector Only</span>
+              </button>
+              <button class="view-tab" data-mode="raster" title="Original Raster Image">
+                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                <span>Raster Only</span>
+              </button>
+              <button class="view-tab" data-mode="onion" title="Onion Skin Opacity Overlay">
+                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><circle cx="9" cy="12" r="6"/><circle cx="15" cy="12" r="6"/></svg>
+                <span>Overlay</span>
+              </button>
+            </div>
+
+            <!-- Onion skin opacity slider (visible in onion mode) -->
+            <div class="onion-control" id="onion-control" style="display: none;">
+              <span class="onion-label">Vector Alpha:</span>
+              <input type="range" id="onion-alpha" min="0" max="100" value="50" class="studio-range-mini">
+              <span class="onion-val" id="onion-val">50%</span>
+            </div>
+          </div>
+
+          <div class="toolbar-right">
+            <!-- Background Selector -->
+            <div class="bg-picker-wrap">
+              <span class="toolbar-label">Canvas:</span>
+              <div class="bg-swatches" id="bg-swatches">
+                <button class="bg-swatch-btn bg-check-dark active" data-bg="check-dark" title="Dark Checkerboard"></button>
+                <button class="bg-swatch-btn bg-check-light" data-bg="check-light" title="Light Checkerboard"></button>
+                <button class="bg-swatch-btn bg-pure-dark" data-bg="dark" title="Pitch Dark (#0B0F17)"></button>
+                <button class="bg-swatch-btn bg-pure-white" data-bg="white" title="Pure White (#FFFFFF)"></button>
+                <button class="bg-swatch-btn bg-grid" data-bg="grid" title="Blueprint Tech Grid"></button>
+              </div>
+            </div>
+
+            <!-- Zoom & Pan Controls -->
+            <div class="zoom-controls">
+              <button class="btn-zoom" id="btn-zoom-out" title="Zoom Out (-)">−</button>
+              <span class="zoom-display" id="zoom-badge" title="Current Zoom">100%</span>
+              <button class="btn-zoom" id="btn-zoom-in" title="Zoom In (+)">+</button>
+              <button class="btn-zoom-reset" id="btn-zoom-reset" title="Reset Zoom (1:1)">1:1</button>
+              <button class="btn-zoom-fit" id="btn-zoom-fit" title="Fit to Stage">⊡</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Canvas Stage -->
+        <div class="canvas-viewport" id="canvas-viewport">
+          
+          <!-- Drag Over Indicator -->
+          <div class="canvas-drag-overlay" id="canvas-drag-overlay" style="display: none;">
+            <div class="drag-overlay-card">
+              <div class="drag-overlay-icon">
+                <svg viewBox="0 0 24 24" width="48" height="48" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+              </div>
+              <span class="drag-overlay-title">Drop new logo here</span>
+              <span class="drag-overlay-sub">Instantly vectorize PNG, JPG, WEBP, or BMP</span>
+            </div>
+          </div>
+          
+          <!-- Empty State (when no image is loaded) -->
+          <div class="empty-state" id="empty-state">
+            <div class="empty-illustration">
+              <div class="pulse-ring ring-1"></div>
+              <div class="pulse-ring ring-2"></div>
+              <div class="empty-vector-icon">
+                <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M24 4L4 14l20 10 20-10L24 4zM4 34l20 10 20-10M4 24l20 10 20-10"/>
+                </svg>
+              </div>
+            </div>
+            <h2 class="empty-title">Creative Vector Studio</h2>
+            <p class="empty-desc">Upload any raster logo or select one of the high-fidelity demo marks to experience live sub-pixel vectorization.</p>
+            <div class="empty-actions">
+              <button class="btn-primary-action" onclick="document.getElementById('file-input').click()">
+                <span>Upload Logo File</span>
+              </button>
+              <button class="btn-secondary-action" id="btn-load-demo">
+                <span>Load Geometric Demo</span>
+              </button>
+            </div>
+            <div class="format-chips">
+              <span class="tag">PNG Alpha</span>
+              <span class="tag">JPEG Photos</span>
+              <span class="tag">WEBP Assets</span>
+              <span class="tag">BMP Glyphs</span>
+            </div>
+          </div>
+
+          <!-- Processing Laser Scan Animation Overlay -->
+          <div class="processing-overlay" id="processing-overlay" style="display: none;">
+            <div class="scanner-frame">
+              <div class="laser-beam"></div>
+              <div class="processing-spinner"></div>
+              <div class="processing-text" id="processing-status-text">Tracing Sub-Pixel Béziers...</div>
+              <div class="processing-sub">Calculating SSIM Structural Fidelity & Optimizing Paths</div>
+            </div>
+          </div>
+
+          <!-- Studio Live Stage Container -->
+          <div class="stage-container" id="stage-container" style="display: none;">
+            
+            <!-- MODE 1: Interactive Split-Screen Curtain Slider -->
+            <div class="view-split-wrapper" id="view-split">
+              <!-- Left Layer: Original Raster -->
+              <div class="split-layer split-raster" id="split-raster-layer">
+                <img id="split-img-raster" alt="Original Raster" draggable="false">
+                <span class="layer-pill raster-pill">ORIGINAL RASTER</span>
+              </div>
+              
+              <!-- Right Layer: Scalable Vector SVG -->
+              <div class="split-layer split-vector" id="split-vector-layer">
+                <div id="split-svg-host" class="svg-host-inner"></div>
+                <span class="layer-pill vector-pill">SCALABLE SVG</span>
+              </div>
+
+              <!-- Draggable Divider Handle -->
+              <div class="split-handle" id="split-handle">
+                <div class="handle-line"></div>
+                <div class="handle-pill">
+                  <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M8 17l-5-5 5-5M16 17l5-5-5-5"/></svg>
+                </div>
+                <div class="handle-line"></div>
+              </div>
+            </div>
+
+            <!-- MODE 2: Side-by-Side Dual View -->
+            <div class="view-side-wrapper" id="view-side" style="display: none;">
+              <div class="side-pane side-pane-raster">
+                <div class="pane-header">
+                  <span class="pane-title">🖼️ Original Raster</span>
+                  <span class="pane-meta" id="side-raster-meta">Raster Format</span>
+                </div>
+                <div class="pane-canvas">
+                  <img id="side-img-raster" alt="Raster" draggable="false">
+                </div>
+              </div>
+              <div class="side-pane side-pane-vector">
+                <div class="pane-header">
+                  <span class="pane-title">✨ Scalable SVG Vector</span>
+                  <span class="pane-meta" id="side-vector-meta">Infinite Zoom</span>
+                </div>
+                <div class="pane-canvas">
+                  <div id="side-svg-host" class="svg-host-inner"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- MODE 3: Vector Only Focus View -->
+            <div class="view-single-wrapper" id="view-vector" style="display: none;">
+              <div id="single-svg-host" class="svg-host-inner"></div>
+              <span class="layer-pill vector-pill">PURE SVG VECTOR</span>
+            </div>
+
+            <!-- MODE 4: Raster Only Focus View -->
+            <div class="view-single-wrapper" id="view-raster" style="display: none;">
+              <img id="single-img-raster" alt="Raster Only" draggable="false">
+              <span class="layer-pill raster-pill">RASTER SOURCE</span>
+            </div>
+
+            <!-- MODE 5: Onion Skin Overlay -->
+            <div class="view-onion-wrapper" id="view-onion" style="display: none;">
+              <div class="onion-base">
+                <img id="onion-img-raster" alt="Raster Base" draggable="false">
+              </div>
+              <div class="onion-top" id="onion-top-layer">
+                <div id="onion-svg-host" class="svg-host-inner"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Stage Bottom Info Bar -->
+        <div class="stage-footer">
+          <div class="footer-hint">
+            <span class="hint-icon">💡</span>
+            <span class="hint-text" id="footer-hint-text">Drag slider horizontally to test edge precision. Use mouse wheel to test infinite vector zoom.</span>
+          </div>
+          <div class="footer-dimensions" id="footer-dimensions">
+            <span id="dim-badge">0 × 0 px</span>
+          </div>
+        </div>
+
+      </main>
+
+      <!-- RIGHT PANEL: Analytics, Brand Palette & Export Studio -->
+      <aside class="metrics-panel">
+        
+        <!-- Studio Metrics Cards -->
+        <section class="studio-card metrics-card">
+          <div class="card-header">
+            <span class="card-title">STUDIO INTELLIGENCE</span>
+            <span class="quality-badge" id="quality-grade-badge">S+ GRADE</span>
+          </div>
+
+          <div class="metrics-list">
+            
+            <!-- Metric 1: Visual Match SSIM -->
+            <div class="metric-item">
+              <div class="metric-top">
+                <span class="metric-label">Structural Similarity (SSIM)</span>
+                <span class="metric-pill pill-success" id="ssim-fidelity-pill">High Fidelity</span>
+              </div>
+              <div class="metric-value-row">
+                <span class="metric-val-large" id="metric-ssim">--%</span>
+                <div class="ssim-meter-bar">
+                  <div class="meter-fill" id="ssim-meter-fill" style="width: 0%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Metric 2: PSNR Signal Fidelity -->
+            <div class="metric-item">
+              <div class="metric-top">
+                <span class="metric-label">PSNR Signal Fidelity</span>
+                <span class="metric-unit">Peak SNR</span>
+              </div>
+              <div class="metric-value-row">
+                <span class="metric-val-medium" id="metric-psnr">-- dB</span>
+              </div>
+            </div>
+
+            <!-- Metric 3: Vector Topology -->
+            <div class="metric-item">
+              <div class="metric-top">
+                <span class="metric-label">Vector Path Topology</span>
+                <span class="metric-unit">&lt;path&gt; tags</span>
+              </div>
+              <div class="metric-value-row">
+                <span class="metric-val-large" id="metric-paths">--</span>
+                <span class="metric-sub" id="metric-spline-type">Bézier Splines</span>
+              </div>
+            </div>
+
+            <!-- Metric 4: Size Delta & Ratio -->
+            <div class="metric-item">
+              <div class="metric-top">
+                <span class="metric-label">Raster vs Vector Size</span>
+                <span class="metric-pill pill-info" id="size-delta-pill">Ratio</span>
+              </div>
+              <div class="size-comparison-row">
+                <div class="size-box">
+                  <span class="size-title">Raster</span>
+                  <span class="size-val" id="metric-raster-size">-- KB</span>
+                </div>
+                <div class="size-arrow">➔</div>
+                <div class="size-box">
+                  <span class="size-title">SVG Vector</span>
+                  <span class="size-val highlight" id="metric-svg-size">-- KB</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Brand Color Palette Extractor -->
+        <section class="studio-card palette-card">
+          <div class="card-header">
+            <span class="card-title">DETECTED BRAND PALETTE</span>
+            <span class="card-meta" id="palette-count-badge">0 Colors</span>
+          </div>
+
+          <div class="palette-swatches-grid" id="palette-grid">
+            <div class="palette-placeholder">Run conversion to extract brand colors</div>
+          </div>
+        </section>
+
+        <!-- Export Actions & Output -->
+        <section class="studio-card export-card">
+          <div class="card-header">
+            <span class="card-title">EXPORT STUDIO</span>
+            <span class="card-meta">Production Ready</span>
+          </div>
+
+          <div class="export-actions-grid">
+            <button class="btn-export-primary" id="btn-download-svg" disabled>
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.2" fill="none"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+              <span>Download SVG</span>
+            </button>
+
+            <button class="btn-export-secondary" id="btn-copy-svg" disabled title="Copy SVG XML to Clipboard">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              <span>Copy SVG</span>
+            </button>
+
+            <button class="btn-export-secondary" id="btn-copy-jsx" disabled title="Copy as React JSX Component">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
+              <span>Copy React JSX</span>
+            </button>
+
+            <button class="btn-export-secondary" id="btn-copy-uri" disabled title="Copy as CSS Data URI">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+              <span>Copy Data URI</span>
+            </button>
+          </div>
+
+          <!-- Code Inspector Toggle -->
+          <div class="code-inspector-trigger">
+            <button class="btn-inspect-code" id="btn-inspect-code" disabled>
+              <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              <span>Inspect SVG Code & Geometry</span>
+            </button>
+          </div>
+        </section>
+
+      </aside>
+
+    </div>
+  </div>
+
+  <!-- MODAL 1: Sample Logo Gallery Modal -->
+  <div class="studio-modal-backdrop" id="modal-samples" style="display: none;">
+    <div class="studio-modal">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <h3 class="modal-title">Sample Logo Showcase</h3>
+          <p class="modal-sub">Select any sample brand logo to test vector conversion presets & metrics</p>
+        </div>
+        <button class="modal-close-btn" id="modal-samples-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="samples-grid" id="modal-samples-grid">
+          <div class="loading-samples">Loading sample library...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: SVG Code Inspector Modal -->
+  <div class="studio-modal-backdrop" id="modal-code" style="display: none;">
+    <div class="studio-modal code-modal">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <h3 class="modal-title">SVG Code Inspector</h3>
+          <span class="code-meta-badge" id="code-meta-badge">0 Lines • 0 Bytes</span>
+        </div>
+        <div class="modal-header-actions">
+          <button class="btn-export-secondary" id="btn-copy-code-modal">Copy Code</button>
+          <button class="modal-close-btn" id="modal-code-close">✕</button>
+        </div>
+      </div>
+      <div class="modal-body code-body">
+        <pre><code class="code-content" id="modal-svg-code"></code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: Keyboard Shortcuts Modal -->
+  <div class="studio-modal-backdrop" id="modal-shortcuts" style="display: none;">
+    <div class="studio-modal shortcuts-modal">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <h3 class="modal-title">Keyboard Shortcuts</h3>
+          <p class="modal-sub">Speed up your vector tracing workflow</p>
+        </div>
+        <button class="modal-close-btn" id="modal-shortcuts-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="shortcuts-grid">
+          <div class="shortcut-row"><span class="sc-desc">Paste image from clipboard</span><kbd>Ctrl + V</kbd></div>
+          <div class="shortcut-row"><span class="sc-desc">Run vector tracing</span><kbd>Ctrl + Enter</kbd></div>
+          <div class="shortcut-row"><span class="sc-desc">Split Comparison view</span><kbd>1</kbd></div>
+          <div class="shortcut-row"><span class="sc-desc">Side-by-side view</span><kbd>2</kbd></div>
+          <div class="shortcut-row"><span class="sc-desc">Vector only view</span><kbd>3</kbd></div>
+          <div class="shortcut-row"><span class="sc-desc">Raster only view</span><kbd>4</kbd></div>
+          <div class="shortcut-row"><span class="sc-desc">Overlay / Onion Skin</span><kbd>5</kbd></div>
+          <div class="shortcut-row"><span class="sc-desc">Zoom in / Zoom out</span><kbd>+</kbd> / <kbd>−</kbd></div>
+          <div class="shortcut-row"><span class="sc-desc">Reset Zoom (1:1)</span><kbd>0</kbd></div>
+          <div class="shortcut-row"><span class="sc-desc">Download SVG file</span><kbd>Ctrl + S</kbd></div>
+          <div class="shortcut-row"><span class="sc-desc">Close modals</span><kbd>Esc</kbd></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Host -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
