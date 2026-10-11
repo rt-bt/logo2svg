@@ -1,11 +1,12 @@
 # logo2svg 🎨
 
-[![CI](https://github.com/your-org/logo2svg/actions/workflows/ci.yml/badge.svg)](https://github.com/your-org/logo2svg/actions/workflows/ci.yml)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Code Style: Clean & Typed](https://img.shields.io/badge/code%20style-typed-brightgreen.svg)](https://peps.python.org/pep-0484/)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/rt-bt/logo2svg)
 
 > **Production-grade raster logo to SVG vector converter.** Converts PNG, JPG, JPEG, WEBP, and BMP brand marks into clean, scalable, mathematically accurate SVG vector graphics editable in Inkscape, Illustrator, and Figma.
+
+🌐 **Live Web Studio**: [Deploy on Vercel](https://vercel.com/new/clone?repository-url=https://github.com/rt-bt/logo2svg) | **GitHub**: [github.com/rt-bt/logo2svg](https://github.com/rt-bt/logo2svg)
 
 ---
 
