@@ -53,3 +53,10 @@ def test_cli_nonexistent_input(temp_dir: Path) -> None:
     """Test CLI returns error code on nonexistent input."""
     exit_code = main([str(temp_dir / "missing.png")])
     assert exit_code == 1
+
+
+def test_cli_no_args() -> None:
+    """Test CLI returns code 1 when no arguments are provided."""
+    exit_code = main([])
+    assert exit_code == 1
+

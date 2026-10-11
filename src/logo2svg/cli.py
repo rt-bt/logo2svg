@@ -29,7 +29,15 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "input",
         type=str,
+        nargs="?",
+        default=None,
         help="Input image file path or directory of images for batch conversion.",
+    )
+
+    parser.add_argument(
+        "--web",
+        action="store_true",
+        help="Launch Logo2SVG Creative Studio web application.",
     )
 
     parser.add_argument(
@@ -215,6 +223,19 @@ def main(argv: Optional[List[str]] = None) -> int:
 
     parser = build_parser()
     args = parser.parse_args(argv)
+
+    if args.web:
+        try:
+            import server
+            server.run_server()
+            return 0
+        except Exception as e:
+            print(f"Error launching web studio: {e}", file=sys.stderr)
+            return 1
+
+    if not args.input:
+        parser.print_help()
+        return 1
 
     input_path = Path(args.input).resolve()
     if not input_path.exists():

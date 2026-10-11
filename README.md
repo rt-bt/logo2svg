@@ -5,23 +5,47 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Code Style: Clean & Typed](https://img.shields.io/badge/code%20style-typed-brightgreen.svg)](https://peps.python.org/pep-0484/)
 
-> **Production-grade raster logo to SVG vector converter.** Converts PNG, JPG, JPEG, WEBP, and BMP logos into clean, scalable, visually accurate SVG vector graphics editable in Inkscape, Illustrator, and Figma.
+> **Production-grade raster logo to SVG vector converter.** Converts PNG, JPG, JPEG, WEBP, and BMP brand marks into clean, scalable, mathematically accurate SVG vector graphics editable in Inkscape, Illustrator, and Figma.
 
 ---
 
-## 🌟 Highlights
+## 🌟 Key Features
 
-- **🎯 Visually Identical Vector Output**: Achieves **>99% SSIM** (Structural Similarity Index) fidelity compared to raster originals.
-- **⚡ Pure Scalable Vectors**: Emits real, semantic `<path>` vector geometry. Zero embedded base64 or `<image>` rasters.
-- **📐 Responsive Scaling**: Automatically embeds mathematically consistent `viewBox` coordinates so SVGs scale infinitely without clipping.
-- **🧹 Path Minification & Optimization**: Strips redundant tracer transforms, trims unnecessary metadata, and rounds decimal path precision, cutting file sizes by up to 50%.
-- **🚀 Preprocessing Pipeline**:
-  - Auto-upscales low-resolution logos (<1000px) 2x via high-fidelity **LANCZOS** interpolation.
-  - Flattens alpha channels onto solid white or preserves transparency (`--keep-alpha`).
-  - Denoises compression artifacts and edge ringing on lossy JPEGs (`--denoise`).
-  - Palette color quantization to eliminate noise gradients (`--colors 1-8`).
-- **🎛️ Tuned Tracing Presets**: Tailored parameters for brand marks (`logo`), geometric emblems (`sharp`), and curved badges (`smooth`).
-- **🖥️ Dual Interface**: High-performance **CLI tool** with batch folder processing + interactive **Streamlit Web UI** with drag-and-drop and live side-by-side comparison.
+### 🎨 1. Creative Studio Web Interface (HTML5 / CSS3 / JavaScript)
+- **↔️ Interactive Before / After Split Slider**: Draggable curtain divider comparing original raster pixels with generated vector curves in real-time.
+- **🔍 Infinite Vector Zoom & Pan Canvas**: Magnify logos up to 16x (1600%) with mouse wheel and drag-to-pan to verify razor-sharp sub-pixel edge fidelity.
+- **⚡ Live Auto-Retrace**: Changing presets, B&W mode, alpha transparency, or color quantization instantly re-traces without requiring a page refresh.
+- **🎨 Brand Color Palette Extractor**: Automatically detects dominant brand colors and generates interactive swatch chips with one-click hex code copying.
+- **📤 Zero-Refresh Multi-Source Upload**:
+  - `+ Upload Logo` button always visible in the top header.
+  - Drag-and-drop images anywhere onto the window with a glowing visual overlay.
+  - Direct clipboard paste support (`Ctrl + V`).
+  - `📁 Upload New Logo` and `✕ Reset` buttons in the sidebar.
+- **💾 One-Click Production Exports**:
+  - Download `.svg` file.
+  - Copy clean, minified SVG XML.
+  - Copy as ready-to-use **React JSX Component** (`<Logo />`).
+  - Copy as **CSS Data URI** (`data:image/svg+xml;utf8,...`).
+  - Integrated syntax-highlighted **SVG Code Inspector Modal**.
+- **🏁 5 Studio Canvas Backgrounds**: Dark Checkerboard, Light Checkerboard, Pitch Black (`#000`), Pure White (`#FFF`), and Blueprint Tech Grid.
+- **📊 Studio Intelligence Dashboard**: Real-time SSIM structural fidelity ring (S+ Studio Grade), PSNR in dB, vector path counts, and size compression ratio.
+
+### 💻 2. Command-Line Interface (CLI)
+- **⚡ Single & Batch Processing**: Vectorize a single file or an entire directory of mixed logos in one command.
+- **🎛️ Tuned Tracing Presets**:
+  - `logo`: Balanced Bézier spline curves for general brand marks.
+  - `sharp`: Polygon fitting with low error thresholds for geometric, angular, and tech marks.
+  - `smooth`: High curvature smoothing for circular badges, crests, and emblems.
+- **🧹 Preprocessing Pipeline**:
+  - Automatic 2x upscaling for low-res logos (<1000px) using high-fidelity **LANCZOS** interpolation.
+  - Transparency preservation (`--keep-alpha`) or clean flattening onto white.
+  - Median-filter artifact denoising for lossy JPEG ringing (`--denoise`).
+  - Color palette quantization to eliminate JPEG gradients (`--colors 1-8`).
+- **📏 Path Optimization**:
+  - Emits clean, semantic `<path>` vector geometry. Zero embedded base64 or `<image>` rasters.
+  - Embeds mathematically accurate `viewBox` coordinates for infinite scalability.
+  - Minifies redundant transforms and rounds coordinates to custom decimal precision (`--precision 1-4`).
+- **📈 Quality Verification**: Automatically calculates SSIM (Structural Similarity Index) and PSNR against the input raster.
 
 ---
 
@@ -37,32 +61,36 @@
 
 ---
 
-## 📥 Installation
+## 📥 Installation Guide
 
-`logo2svg` requires **Python 3.10+**.
+### Prerequisites
+- Python **3.10** or higher (`3.10`, `3.11`, `3.12`, `3.13`, `3.14`)
+- Git
 
-### 1. Clone Repository
+### 1. Clone the Repository
 ```bash
 git clone https://github.com/your-org/logo2svg.git
 cd logo2svg
 ```
 
-### 2. Platform-Specific Setup
+### 2. Setup Virtual Environment
 
-#### 🪟 Windows
+#### 🪟 Windows (PowerShell / Command Prompt)
 ```powershell
-# Create and activate virtual environment
-python -m venv .venv
+# Create virtual environment
+py -m venv .venv
+
+# Activate virtual environment
 .venv\Scripts\activate
 
-# Install logo2svg with Web UI and Dev tools
+# Install dependencies and package in editable mode
 pip install -e ".[ui,dev]"
 ```
-> *Note on Windows*: SVG rendering for SSIM verification automatically leverages `resvg-py` out-of-the-box without requiring any GTK or Cairo system DLLs.
+> *Windows Note*: SVG rendering for quality verification automatically uses `resvg-py` out-of-the-box, requiring **zero** external C libraries or GTK/Cairo DLLs.
 
 #### 🍎 macOS
 ```bash
-# Optional: install Cairo for cairosvg rendering
+# Optional: install Cairo library
 brew install cairo
 
 # Create and activate virtual environment
@@ -75,7 +103,7 @@ pip install -e ".[ui,dev]"
 
 #### 🐧 Linux (Ubuntu / Debian / Fedora)
 ```bash
-# Install Cairo dependencies
+# Install Cairo build dependencies
 sudo apt-get update && sudo apt-get install -y libcairo2-dev pkg-config
 
 # Create and activate virtual environment
@@ -88,188 +116,196 @@ pip install -e ".[ui,dev]"
 
 ---
 
-## 🚀 CLI Usage
+## 🚀 How to Use
 
-After installation, the `logo2svg` command is available in your shell (or run via `python -m logo2svg`):
+### Method 1: Creative Studio Web Interface (Recommended)
 
-### Basic Conversion
+Launch the modern standalone Creative Studio web app:
+
 ```bash
-# Convert a single PNG logo to SVG
+# Start Web Studio
+python server.py
+# or via CLI flag
+logo2svg --web
+# on Windows (if py launcher is default)
+py server.py
+```
+
+The browser opens automatically at **`http://127.0.0.1:5000`**.
+
+#### What you can do in Creative Studio:
+1. **Upload**: Drag and drop any logo or paste directly from clipboard (`Ctrl + V`).
+2. **Inspect**: Drag the center split divider to compare raster vs SVG vector curves.
+3. **Zoom**: Scroll your mouse wheel inside the canvas to inspect sub-pixel splines up to 16x.
+4. **Tune**: Select `Logo`, `Sharp`, or `Smooth` presets — changes update live in real-time.
+5. **Palette**: Click any extracted brand color chip to copy the hex code.
+6. **Export**: Click `Download SVG`, `Copy SVG`, `Copy React JSX`, or `Copy Data URI`.
+
+---
+
+### Method 2: Command-Line Interface (CLI)
+
+```bash
+# Convert a single logo (outputs logo.svg in the same directory)
 logo2svg logo.png
 
 # Specify custom output path
-logo2svg logo.png -o /path/to/vector.svg
+logo2svg logo.png -o output/vector_logo.svg
+
+# Batch convert an entire folder of logos
+logo2svg my_logos/ -o converted_svgs/
 ```
 
-### Batch Conversion (Whole Folder)
-Convert an entire directory of raster logos at once:
+#### Preset Examples
 ```bash
-# Convert all supported images in logos/ and save SVGs into output_svgs/
-logo2svg logos/ -o output_svgs/
+# 1. Balanced Brand Mark (smooth Bézier splines)
+logo2svg company_logo.png --preset logo
+
+# 2. Geometric / Tech / Angular Mark (polygon edge fitting)
+logo2svg tech_shield.png --preset sharp
+
+# 3. Badge / Vintage / Circular Emblem (enhanced smoothing)
+logo2svg crest.png --preset smooth
 ```
 
-### Preset Selection
-Select a preset tuned to your logo's art style:
+#### Advanced CLI Tuning Flags
 ```bash
-# 1. Balanced Brand Logos (spline Bézier curves)
-logo2svg brand.png --preset logo
+# Pure monochrome silhouette (black & white vector paths)
+logo2svg symbol.png --bw
 
-# 2. Geometric / Angular / Tech Logos (polygonal straight edges)
-logo2svg polygon_tech.png --preset sharp
+# Clean JPEG compression artifacts with median filter
+logo2svg scanned.jpg --denoise --preset logo
 
-# 3. Organic / Curved / Badges & Emblems (smooth curvature)
-logo2svg emblem.png --preset smooth
+# Quantize noisy gradients into 4 solid Pantone-style colors
+logo2svg badge.png --colors 4
+
+# Preserve transparent PNG background
+logo2svg icon.png --keep-alpha
+
+# Minify XML output into single-line format
+logo2svg brand.png --minify --precision 2
 ```
 
-### Advanced Flags & Tuning
+#### CLI Flags Reference
 
 | Flag | Argument | Description | Default |
 | :--- | :--- | :--- | :--- |
-| `-o`, `--output` | `PATH` | Custom output SVG file path or directory | Same as input (`.svg`) |
+| `input` | `FILE \| DIR` | Input raster image or directory of images | *Required* |
+| `-o`, `--output` | `PATH` | Output SVG file path or directory | Same as input (`.svg`) |
 | `--preset` | `logo \| sharp \| smooth` | Tracing parameter preset | `logo` |
-| `--bw` | *flag* | Binary mode: binarizes logo to pure black & white vectors | `False` |
-| `--colors` | `1-8` | Quantize image palette to N colors before tracing | `None` (full) |
-| `--scale` | `FLOAT` | Custom upscale factor (e.g. `2.0`). Auto 2x if <1000px | Auto |
-| `--keep-alpha` | *flag* | Preserve transparency instead of flattening onto white | `False` |
+| `--bw` | *flag* | Binarizes logo to pure black & white vectors | `False` |
+| `--colors` | `1-8` | Quantize image palette to N colors | `None` (full) |
+| `--scale` | `FLOAT` | Custom upscale factor (auto 2x if <1000px) | Auto |
+| `--keep-alpha` | *flag* | Preserve transparency instead of flattening | `False` |
 | `--denoise` | *flag* | Apply median filter denoising for JPG artifacts | `False` |
-| `--precision` | `INT` | Decimal rounding precision for path coordinates | `2` |
+| `--precision` | `INT` | Decimal coordinate precision for paths | `2` |
 | `--minify` | *flag* | Compact single-line SVG output | `False` |
+| `--web` | *flag* | Launch Creative Studio Web Application | `False` |
 | `--no-optimize`| *flag* | Skip SVG coordinate optimization | `False` |
 | `--no-check` | *flag* | Skip SSIM quality comparison calculation | `False` |
 
-#### Examples with Flags
-```bash
-# Binarize a logo to crisp black & white
-logo2svg icon.png --bw
+---
 
-# Clean noisy JPEG compression artifacts
-logo2svg scanned_logo.jpg --denoise --preset logo
+### Method 3: Python API
 
-# Quantize to 4 solid brand colors
-logo2svg illustration.png --colors 4
+You can import and use `logo2svg` directly inside your own Python applications:
 
-# Preserve transparent PNG background
-logo2svg transparent_badge.png --keep-alpha
+```python
+from logo2svg import convert_image, ConversionOptions
+
+# Configure conversion options
+options = ConversionOptions(
+    preset="logo",        # "logo", "sharp", or "smooth"
+    bw=False,             # Monochrome mode
+    keep_alpha=True,      # Preserve transparency
+    denoise=True,         # JPEG noise filter
+    precision=2,          # Decimal precision
+    minify=True,          # Minified XML output
+)
+
+# Convert raster image to SVG
+result = convert_image("logo.png", output_path="logo.svg", options=options)
+
+print(f"SVG generated: {len(result.svg_content)} bytes")
+print(f"Visual match (SSIM): {result.similarity_percentage:.2f}%")
+print(f"Signal fidelity (PSNR): {result.comparison.psnr:.1f} dB")
 ```
 
 ---
 
-## 🌐 Interactive Web UI
+### Method 4: Streamlit Studio Edition
 
-`logo2svg` includes a Streamlit web application featuring drag-and-drop uploads, interactive preset and tuning controls, side-by-side previews, and live SSIM scoring.
+For rapid prototyping in Streamlit:
 
 ```bash
-# Launch the web application
 streamlit run app.py
 ```
-
-The browser opens automatically at `http://localhost:8501`.
-
-### Web UI Features:
-- 📤 **Drag & Drop**: Upload PNG, JPG, WEBP, or BMP files.
-- 🖼️ **Sample Gallery**: One-click testing of preloaded sample logos.
-- 🎛️ **Live Tuner**: Real-time preset switching, color quantization, and denoising sliders.
-- 🔍 **Side-by-Side Comparison**: Compare the raster original with the SVG vector output.
-- 📈 **Accuracy Badges**: SSIM similarity percentage and PSNR metrics displayed instantly.
-- 💾 **Export**: One-click SVG file download.
+*Opens at `http://localhost:8501`*.
 
 ---
 
-## 🏗️ Architecture & Pipeline
+## 🏗️ Project Architecture
 
-```mermaid
-flowchart TD
-    A["Raster Image\n(PNG, JPG, WEBP, BMP)"] --> B["Preprocess Pipeline"]
-    
-    subgraph Preprocessing
-        B --> B1["Validate Image Integrity"]
-        B1 --> B2{"keep-alpha?"}
-        B2 -- No --> B3["Flatten Alpha onto White"]
-        B2 -- Yes --> B4["Preserve RGBA Mode"]
-        B3 --> B5{"Dim < 1000px?"}
-        B4 --> B5
-        B5 -- Yes --> B6["Auto-Upscale 2x\n(LANCZOS Resampling)"]
-        B5 -- No --> B7["Keep Native Dimensions"]
-        B6 --> B8{"Denoise / JPG?"}
-        B7 --> B8
-        B8 -- Yes --> B9["Median Filter Denoising"]
-        B8 -- No --> B10["Skip Denoising"]
-        B9 --> B11{"bw / colors?"}
-        B10 --> B11
-        B11 -- bw --> B12["Otsu Threshold Binarization"]
-        B11 -- colors --> B13["Median Cut Quantization (1-8)"]
-        B11 -- none --> B14["Full Palette"]
-    end
-
-    B12 --> C["Vector Tracing (vtracer)"]
-    B13 --> C
-    B14 --> C
-
-    subgraph Tracing
-        C --> C1{"Preset"}
-        C1 -- logo --> C2["Spline Fitting (Balanced)"]
-        C1 -- sharp --> C3["Polygon Fitting (Crisp Edges)"]
-        C1 -- smooth --> C4["Spline Fitting (Curved Curves)"]
-    end
-
-    C2 --> D["Post-Processing & Optimization"]
-    C3 --> D
-    C4 --> D
-
-    subgraph PostProcessing
-        D --> D1["Inject Responsive viewBox"]
-        D1 --> D2["Strip Redundant translate(0,0)"]
-        D2 --> D3["Round Path Coordinates (Precision)"]
-        D3 --> D4["Verify Pure Vector (<path> only)"]
-    end
-
-    D4 --> E["Quality Verification (SSIM)"]
-    
-    subgraph Verification
-        E --> E1["Rasterize SVG to PNG\n(cairosvg / resvg-py)"]
-        E1 --> E2["Compute SSIM & PSNR\nagainst Original Logo"]
-    end
-
-    E2 --> F["Final Clean SVG File\n+ Quality Score"]
+```
+logo2svg/
+├── src/
+│   └── logo2svg/
+│       ├── __init__.py       # Package exports & version
+│       ├── cli.py            # CLI entrypoint & argument parsing
+│       ├── converter.py      # Core conversion orchestrator
+│       ├── preprocess.py     # Image validation, alpha flattening, LANCZOS scaling, denoising
+│       ├── trace.py          # vtracer engine integration & preset configurations
+│       ├── optimize.py       # SVG cleanup, viewBox injection, transform stripping, precision rounding
+│       └── compare.py        # SSIM and PSNR fidelity verification pipeline
+├── web/                      # Standalone Creative Studio Web Application
+│   ├── index.html            # Studio application shell & modals
+│   ├── style.css             # High-contrast Creative Studio dark theme & animations
+│   └── app.js                # Interactive split slider, infinite zoom & pan, exports
+├── examples/                 # Benchmark test logos (PNG, JPG, SVG)
+├── tests/                    # Comprehensive unit and integration test suite
+│   ├── test_preprocess.py
+│   ├── test_trace.py
+│   ├── test_optimize.py
+│   ├── test_compare.py
+│   ├── test_cli.py
+│   └── test_server.py
+├── server.py                 # High-performance Flask server & REST API
+├── app.py                    # Streamlit Studio web app
+├── pyproject.toml            # Modern PEP 517/621 build configuration
+├── requirements.txt          # Python package requirements
+└── README.md                 # Complete documentation
 ```
 
 ---
 
-## 🧪 Testing
+## 🧪 Running Tests
 
-The repository features unit and integration tests covering preprocessing, tracing, SVG optimization, CLI execution, and comparison metrics.
+The test suite contains 47 unit and integration tests covering the entire pipeline:
 
 ```bash
-# Run tests with pytest
+# Run all tests
 pytest -v
 
-# Run with coverage report
+# Run with test coverage
 pytest --cov=logo2svg tests/
 ```
 
-All 39 unit tests execute and pass in under 1 second.
+All 47 tests pass in ~1 second.
 
 ---
 
-## 💡 Tips & Best Practices
+## 💡 Pro Tips & Best Practices
 
-1. **Which preset should I use?**
-   - **`sharp`**: Best for geometric logos, tech marks, hexagons, triangles, polygons, and logos with crisp 90° or acute corners.
-   - **`smooth`**: Best for circular crests, badges, organic curves, handwritten scripts, and flowing mascots.
-   - **`logo`**: The ideal all-rounder for typical brand marks combining both straight lines and curves.
+1. **Which preset to choose?**
+   - **`sharp`**: Hexagonal, angular, tech shields, and logos with crisp straight lines.
+   - **`smooth`**: Badges, emblems, circular marks, mascots, and cursive fonts.
+   - **`logo`**: Standard corporate brand marks with mixed geometry and curves.
 2. **JPEG compression noise**:
-   - If tracing a JPEG logo with ringing artifacts around the edges, always supply `--denoise` or enable median filtering in the Web UI.
-3. **Multi-color logos with gradient noise**:
-   - Use `--colors 3` or `--colors 4` to snap subtle JPEG sensor color jitter into solid, uniform Pantone-style color regions.
+   - If your input logo is a compressed JPEG with visible pixel noise or ringing, always pass `--denoise` or enable "Smart Denoise" in the Web Studio.
+3. **Multi-color logos**:
+   - Use `--colors 4` to snap gradient noise into solid Pantone-style color blocks.
 4. **Transparency**:
-   - Modern vector logos intended for web placement on white or colored backgrounds look best flattened onto white by default. If your logo has transparent negative space cutouts, use `--keep-alpha`.
-
----
-
-## ⚠️ Limitations
-
-- **Complex Photorealistic Gradients**: `vtracer` converts gradients into stepped vector bands/layers. For high-frequency continuous photographic scenes, raster formats remain more compact than pure vectors.
-- **Embedded Fonts**: Text is traced as raw vector `<path>` outlines, preserving visual typography identically without requiring font installations. Text will not be selectable as editable font strings in vector editors.
+   - For logos with cutouts or transparent backgrounds, enable `--keep-alpha`.
 
 ---
 

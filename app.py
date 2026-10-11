@@ -351,6 +351,10 @@ def main() -> None:
         unsafe_allow_html=True,
     )
 
+    st.info(
+        "✨ **New Creative Studio Web Interface**: Experience the new high-contrast web app with an **interactive Before/After Split Slider**, **infinite vector zoom & pan**, and **color palette extractor**! Run `python server.py` or `logo2svg --web`."
+    )
+
     # Source Selection: Upload or Sample Gallery
     tab_upload, tab_sample = st.tabs(["📤 Drag & Drop Upload", "🖼️ Sample Logo Gallery"])
 
