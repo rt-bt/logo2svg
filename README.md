@@ -239,7 +239,7 @@ print(f"Signal fidelity (PSNR): {result.comparison.psnr:.1f} dB")
 For rapid prototyping in Streamlit:
 
 ```bash
-streamlit run app.py
+streamlit run streamlit_app.py
 ```
 *Opens at `http://localhost:8501`*.
 
@@ -271,7 +271,7 @@ logo2svg/
 │   ├── test_cli.py
 │   └── test_server.py
 ├── server.py                 # High-performance Flask server & REST API
-├── app.py                    # Streamlit Studio web app
+├── streamlit_app.py          # Streamlit Studio web app
 ├── pyproject.toml            # Modern PEP 517/621 build configuration
 ├── requirements.txt          # Python package requirements
 └── README.md                 # Complete documentation

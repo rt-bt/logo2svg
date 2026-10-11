@@ -137,8 +137,8 @@ def add_cors(response):
     return response
 
 
-@app.route("/health")
-@app.route("/api/health")
+@app.route("/health", strict_slashes=False)
+@app.route("/api/health", strict_slashes=False)
 def health():
     return jsonify({
         "status": "healthy",
@@ -147,14 +147,14 @@ def health():
     })
 
 
-@app.route("/samples", methods=["GET"])
-@app.route("/api/samples", methods=["GET"])
+@app.route("/samples", methods=["GET"], strict_slashes=False)
+@app.route("/api/samples", methods=["GET"], strict_slashes=False)
 def get_samples():
     return jsonify({"samples": SAMPLES_DATA})
 
 
-@app.route("/sample/<filename>", methods=["GET"])
-@app.route("/api/sample/<filename>", methods=["GET"])
+@app.route("/sample/<filename>", methods=["GET"], strict_slashes=False)
+@app.route("/api/sample/<filename>", methods=["GET"], strict_slashes=False)
 def get_sample_file(filename: str):
     file_path = find_sample_file(filename)
     if not file_path:
@@ -162,8 +162,8 @@ def get_sample_file(filename: str):
     return send_file(str(file_path))
 
 
-@app.route("/convert", methods=["POST", "OPTIONS"])
-@app.route("/api/convert", methods=["POST", "OPTIONS"])
+@app.route("/convert", methods=["POST", "OPTIONS"], strict_slashes=False)
+@app.route("/api/convert", methods=["POST", "OPTIONS"], strict_slashes=False)
 def convert():
     if request.method == "OPTIONS":
         return "", 204

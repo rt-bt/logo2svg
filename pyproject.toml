@@ -40,9 +40,7 @@ classifiers = [
 dependencies = [
     "vtracer>=0.6.0",
     "pillow>=9.0.0",
-    "scikit-image>=0.19.0",
     "numpy>=1.20.0",
-    "cairosvg>=2.5.0",
     "resvg-py>=0.5.0",
 ]
 
@@ -53,6 +51,8 @@ ui = [
 dev = [
     "pytest>=7.0.0",
     "pytest-cov>=4.0.0",
+    "scikit-image>=0.19.0",
+    "cairosvg>=2.5.0",
 ]
 
 [project.scripts]
@@ -66,3 +66,6 @@ minversion = "7.0"
 addopts = "-ra -q"
 testpaths = ["tests"]
 pythonpath = ["src"]
+
+[tool.vercel]
+entrypoint = "api.index:app"
