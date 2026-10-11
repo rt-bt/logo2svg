@@ -1,6 +1,18 @@
 {
   "rewrites": [
     {
+      "source": "/api/convert",
+      "destination": "/api/convert.py"
+    },
+    {
+      "source": "/api/samples",
+      "destination": "/api/samples.py"
+    },
+    {
+      "source": "/api/health",
+      "destination": "/api/health.py"
+    },
+    {
       "source": "/api/(.*)",
       "destination": "/api/index.py"
     }

@@ -326,11 +326,13 @@
     el.sourceFileBadge.textContent = sampleFilename;
     el.btnClearSource.style.display = 'inline-block';
 
-    fetch(`/api/sample/${sampleFilename}`)
-      .then(res => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.blob();
-      })
+    const tryFetch = (url) => fetch(url).then(res => {
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res.blob();
+    });
+
+    tryFetch(`/examples/${sampleFilename}`)
+      .catch(() => tryFetch(`/api/sample/${sampleFilename}`))
       .then(blob => {
         const reader = new FileReader();
         reader.onload = ev => {

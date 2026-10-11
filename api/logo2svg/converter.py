@@ -126,10 +126,13 @@ def convert_image(
     # Step 5: Quality check with SSIM
     comparison = None
     if options.check_quality:
-        comparison = compare_svg_to_image(
-            svg_input=final_svg,
-            reference_image=input_path,
-        )
+        try:
+            comparison = compare_svg_to_image(
+                svg_input=final_svg,
+                reference_image=input_path,
+            )
+        except Exception:
+            comparison = None
 
     svg_bytes_count = len(final_svg.encode("utf-8"))
 
